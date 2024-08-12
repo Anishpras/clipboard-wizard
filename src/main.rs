@@ -3,7 +3,9 @@ use std::time::Duration;
 use clipboard::{ClipboardContext, ClipboardProvider};
 use chrono::Local;
 use iced::widget::{button, column, container, row, scrollable, text};
-use iced::{executor, Command, Element, Length, Subscription, Application, Settings, Theme};
+use iced::{executor, Application, Command, Element, Length, Settings, Subscription, Theme};
+use image::io::Reader as ImageReader;
+use std::io::Cursor;
 
 #[derive(Clone, Debug)]
 struct ClipboardEntry {
@@ -153,5 +155,24 @@ impl Application for ClipboardHistoryApp {
 }
 
 fn main() -> iced::Result {
-    ClipboardHistoryApp::run(Settings::default())
+    let icon_data = include_bytes!("../clipboard_wizard.png");
+    let icon_image = ImageReader::new(Cursor::new(icon_data))
+        .with_guessed_format()
+        .expect("Failed to guess image format")
+        .decode()
+        .expect("Failed to decode image");
+
+    let rgba = icon_image.to_rgba8();
+    let width = icon_image.width();
+    let height = icon_image.height();
+
+    let icon = iced::window::icon::from_rgba(rgba.into_raw(), width, height).ok();
+
+    ClipboardHistoryApp::run(Settings {
+        window: iced::window::Settings {
+            icon,
+            ..iced::window::Settings::default()
+        },
+        ..Settings::default()
+    })
 }

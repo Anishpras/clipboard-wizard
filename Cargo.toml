@@ -2,11 +2,26 @@
 name = "clipboard-wizard"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+description = "A clipboard history manager that allows you to easily access and reuse previously copied items."
+authors = ["Anish Prashun"]
 
 [dependencies]
+iced = { version = "0.9.0", features = ["image", "tokio"] }
+clipboard = "0.5.0"
+chrono = "0.4.26"
+tokio = { version = "1.28.0", features = ["full"] }
+image = "0.24.6"
 
-clipboard = "0.5"
-chrono = "0.4"
-iced = { version = "0.9", features = ["tokio"] }
+[package.metadata.bundle]
+name = "Clipboard Wizard"
+identifier = "com.anishpras.clipboardwizard"
+icon = ["clipboard_wizard.png"]
+version = "1.0.0"
+resources = []
+copyright = "Copyright (c) Anish Prashun 2024. All rights reserved."
+category = "Productivity"
+short_description = "A clipboard history manager"
+long_description = """
+Clipboard Wizard is a tool that keeps track of your clipboard history,
+allowing you to easily access and reuse previously copied items.
+"""
